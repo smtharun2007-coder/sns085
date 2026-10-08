@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: authease-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: authease
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  authease-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: authease-app
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: "mongodb://mongodb:27017/authease"
+      APP_BASE_URL: "http://localhost:8080"
+      AUTHEASE_DEMO_MODE: "true"
+      AUTHEASE_ENC_KEY: "0123456789abcdef0123456789abcdef"
+      JAVA_TOOL_OPTIONS: "-Xmx350m -Xms128m"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/api/health"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  mongo-data:

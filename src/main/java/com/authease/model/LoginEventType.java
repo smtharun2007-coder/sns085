@@ -1,0 +1,15 @@
+package com.authease.model;
+
+public enum LoginEventType {
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    MFA_SENT,
+    MFA_SUCCESS,
+    MFA_FAILURE,
+    RECOVERY_REQUESTED,
+    RECOVERY_COMPLETED,
+    PASSWORD_CHANGED,
+    SUSPICIOUS_DETECTED,
+    DEVICE_REVOKED,
+    EMAIL_VERIFIED
+}
