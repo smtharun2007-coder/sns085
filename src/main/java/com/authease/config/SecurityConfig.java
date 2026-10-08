@@ -55,15 +55,21 @@ public class SecurityConfig {
                 )
             )
             .authorizeHttpRequests(auth -> auth
-                // Static UI files
+                // Static UI files and routes
                 .requestMatchers(
-                    "/", "/index.html", "/login.html", "/register.html",
+                    "/", "/*.html", "/**.html",
+                    "/help.html", "/dev-outbox.html", "/account.html", "/recover.html",
+                    "/index.html", "/login.html", "/register.html",
                     "/check-email.html", "/verify-email.html", "/approve.html",
-                    "/mfa-setup.html", "/css/**", "/js/**", "/vendor/**", "/favicon.ico"
+                    "/mfa-setup.html",
+                    "/help", "/dev-outbox", "/account", "/recover", "/login", "/register",
+                    "/css/**", "/js/**", "/vendor/**", "/favicon.ico",
+                    "/*.ico", "/*.png", "/*.svg"
                 ).permitAll()
                 // Public & Controller-guarded APIs
                 .requestMatchers("/api/health").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/mfa/**").permitAll()
                 .requestMatchers("/api/password/check").permitAll()
                 .requestMatchers("/api/recovery/**").permitAll()
                 .requestMatchers("/api/dev/**").permitAll()
@@ -71,6 +77,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/assist/**").permitAll()
                 .requestMatchers("/api/admin/**").permitAll()
                 .requestMatchers("/api/account/**").permitAll()
+                .requestMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex
