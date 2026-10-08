@@ -21,6 +21,7 @@ import com.authease.util.CryptoUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -75,6 +76,7 @@ public class AuthService {
                 reasonCatalogService, riskEngine, policyService, challengeService, null);
     }
 
+    @Autowired
     public AuthService(UserRepository userRepository,
                        TrustedDeviceRepository trustedDeviceRepository,
                        LoginEventRepository loginEventRepository,
