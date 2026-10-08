@@ -47,7 +47,7 @@ class AccountServiceTest {
 
         when(userRepository.findById("u123")).thenReturn(Optional.of(user));
         when(trustedDeviceRepository.findByUserId("u123")).thenReturn(List.of(dev));
-        when(loginEventRepository.findByUserIdOrNullOrderByTsDesc("u123")).thenReturn(List.of());
+        when(loginEventRepository.findByUserIdOrderByTsDesc("u123")).thenReturn(List.of());
 
         AccountSecurityResponse res = accountService.getSecurityInfo("u123", "cookie-val");
         assertTrue(res.isMfaEnabled());
@@ -73,7 +73,7 @@ class AccountServiceTest {
         event.setScore(45);
         event.setSignals(List.of("NEW_DEVICE", "UNUSUAL_HOUR"));
 
-        when(loginEventRepository.findFirstByUserIdOrNullOrderByTsDesc("u123")).thenReturn(Optional.of(event));
+        when(loginEventRepository.findFirstByUserIdOrderByTsDesc("u123")).thenReturn(Optional.of(event));
 
         LastDecisionResponse res = accountService.getLastDecision("u123");
         assertEquals(45, res.getScore());

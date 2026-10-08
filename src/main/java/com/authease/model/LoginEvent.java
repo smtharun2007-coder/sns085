@@ -18,7 +18,7 @@ public class LoginEvent {
     private Instant ts = Instant.now();
 
     @Indexed
-    private String userIdOrNull;
+    private String userId;
 
     @Indexed
     private String identifierHash;
@@ -33,11 +33,11 @@ public class LoginEvent {
 
     public LoginEvent() {}
 
-    public LoginEvent(Instant ts, String userIdOrNull, String identifierHash, LoginEventType type,
+    public LoginEvent(Instant ts, String userId, String identifierHash, LoginEventType type,
                       RiskLevel level, Integer score, List<String> signals, String reasonCode,
                       String ipPrefixHash, String deviceId) {
         this.ts = ts != null ? ts : Instant.now();
-        this.userIdOrNull = userIdOrNull;
+        this.userId = userId;
         this.identifierHash = identifierHash;
         this.type = type;
         this.level = level;
@@ -64,12 +64,20 @@ public class LoginEvent {
         this.ts = ts;
     }
 
-    public String getUserIdOrNull() {
-        return userIdOrNull;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUserIdOrNull(String userIdOrNull) {
-        this.userIdOrNull = userIdOrNull;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserIdOrNull() {
+        return userId;
+    }
+
+    public void setUserIdOrNull(String userId) {
+        this.userId = userId;
     }
 
     public String getIdentifierHash() {

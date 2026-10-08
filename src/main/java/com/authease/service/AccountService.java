@@ -51,7 +51,7 @@ public class AccountService {
             ));
         }
 
-        List<LoginEvent> events = loginEventRepository.findByUserIdOrNullOrderByTsDesc(userId);
+        List<LoginEvent> events = loginEventRepository.findByUserIdOrderByTsDesc(userId);
         if (events.size() > 10) {
             events = events.subList(0, 10);
         }
@@ -70,7 +70,7 @@ public class AccountService {
     }
 
     public LastDecisionResponse getLastDecision(String userId) {
-        Optional<LoginEvent> opt = loginEventRepository.findFirstByUserIdOrNullOrderByTsDesc(userId);
+        Optional<LoginEvent> opt = loginEventRepository.findFirstByUserIdOrderByTsDesc(userId);
         if (opt.isEmpty()) {
             return new LastDecisionResponse(10, "LOW", List.of(
                     new LastDecisionResponse.SignalDetail("BASELINE", "Default Baseline Score", 10)
