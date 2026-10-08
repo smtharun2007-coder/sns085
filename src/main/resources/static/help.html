@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-text-size="md">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+  <title>Help & Accessibility Guides - AuthEase</title>
+  
+  <!-- Vendored Bootstrap 5.3 -->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- AuthEase Design System & Accessibility Styles -->
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="app-header" role="banner"></header>
+
+  <main id="main-content" class="flex-grow-1 py-4 py-md-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+
+          <div class="mb-4">
+            <h1 class="h3 fw-bold mb-1" id="help-heading" tabindex="-1">Help & Guidance</h1>
+            <p class="text-muted small m-0">Plain language answers to common security and accessibility questions.</p>
+          </div>
+
+          <!-- Interactive AI Assist Tool -->
+          <div class="card shadow-sm border p-4 mb-4">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="fs-4">🤖</span>
+              <h2 class="h5 fw-bold m-0">Explain Any Security Message (AI Assist)</h2>
+            </div>
+            <p class="text-muted small mb-3">
+              Did you encounter a confusing error code? Enter the code below to get a friendly, grade 6–8 level explanation:
+            </p>
+            <div class="input-group mb-3">
+              <input type="text" id="assist-input" class="form-control" placeholder="e.g. TOKEN_INVALID_OR_EXPIRED, SUSPICIOUS_LOGIN, MFA_REQUIRED" aria-label="Security code">
+              <button class="btn btn-ae-primary px-3" type="button" id="btn-ask-assist">Explain Simply</button>
+            </div>
+            <div id="assist-result" class="p-3 bg-light rounded border d-none">
+              <h3 class="h6 fw-bold mb-1" id="assist-title"></h3>
+              <p class="small text-body mb-2" id="assist-explanation"></p>
+              <div class="small text-muted"><strong class="text-dark">Next step:</strong> <span id="assist-nextstep"></span></div>
+            </div>
+          </div>
+
+          <!-- FAQ Accordion -->
+          <div class="d-flex flex-column gap-3 mb-5">
+            <div class="card border p-3">
+              <h2 class="h6 fw-bold mb-1">What is Guided Mode?</h2>
+              <p class="small text-muted m-0">
+                Guided Mode simplifies forms, enlarges fonts, and provides step-by-step tips for each input field. You can turn it on or off at any time using the <strong>Guided</strong> switch in the top toolbar.
+              </p>
+            </div>
+
+            <div class="card border p-3">
+              <h2 class="h6 fw-bold mb-1">How does Adaptive Security work?</h2>
+              <p class="small text-muted m-0">
+                When you sign in from your familiar browser, you are logged in instantly. If you log in from a new computer or location, AuthEase asks for a 6-digit code to confirm it's really you. If someone tries to sign in from an unfamiliar country or with repeated bad passwords, an approval email is sent to protect your account.
+              </p>
+            </div>
+
+            <div class="card border p-3">
+              <h2 class="h6 fw-bold mb-1">Where do I find my verification emails in this demo?</h2>
+              <p class="small text-muted m-0">
+                All verification emails and codes are delivered directly to the <a href="dev-outbox.html" class="fw-semibold text-primary">Simulated Dev Outbox</a>. You can open and click them with a single click.
+              </p>
+            </div>
+          </div>
+
+          <div class="text-center pt-3 border-top">
+            <a href="index.html" class="btn btn-ae-outline px-4">Back to Home</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo"></footer>
+
+  <script type="module" src="js/pages/help.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-text-size="md">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+  <title>Account Security Center - AuthEase</title>
+  
+  <!-- Vendored Bootstrap 5.3 -->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- AuthEase Design System & Accessibility Styles -->
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="app-header" role="banner"></header>
+
+  <main id="main-content" class="flex-grow-1 py-4 py-md-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+
+          <!-- UNAUTHENTICATED NOTICE (Shown if user visits account.html without logging in) -->
+          <div id="unauth-view" class="card shadow-sm p-4 text-center d-none">
+            <div class="mb-3 text-warning">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <h1 class="h4 fw-bold mb-2">Sign in required</h1>
+            <p class="text-muted small mb-4">
+              You must be signed in with your account to view your security settings, trusted devices, and activity.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+              <a href="login.html" class="btn btn-ae-primary px-4">Sign in to your account</a>
+              <a href="register.html" class="btn btn-ae-outline px-4">Create account</a>
+            </div>
+          </div>
+
+          <!-- AUTHENTICATED DASHBOARD (Shown when logged in) -->
+          <div id="auth-view" class="d-none">
+            
+            <!-- User Header -->
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+              <div>
+                <h1 class="h3 fw-bold mb-1" id="account-heading" tabindex="-1">Security Center</h1>
+                <p class="text-muted small m-0" id="user-identity-display">Manage your credentials, 2FA, and trusted browsers.</p>
+              </div>
+              <button type="button" class="btn btn-sm btn-outline-danger" id="btn-logout">
+                Sign out
+              </button>
+            </div>
+
+            <!-- MFA Status Card -->
+            <div class="card shadow-sm border p-4 mb-4">
+              <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div>
+                  <h2 class="h5 fw-bold mb-1">Two-Factor Authentication (2FA)</h2>
+                  <p class="text-muted small m-0" id="mfa-status-desc">
+                    Protects your account with an extra code from your phone or authenticator app.
+                  </p>
+                </div>
+                <div id="mfa-action-slot">
+                  <a href="mfa-setup.html" class="btn btn-sm btn-ae-primary" id="btn-setup-mfa">Enable Authenticator App</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trusted Devices Card -->
+            <div class="card shadow-sm border p-4 mb-4">
+              <h2 class="h5 fw-bold mb-2">Remembered Devices</h2>
+              <p class="text-muted small mb-3">
+                Browsers and devices you marked as trusted to reduce repeated two-factor prompts.
+              </p>
+              <div id="devices-list" class="d-flex flex-column gap-2">
+                <div class="text-muted small">No remembered devices yet.</div>
+              </div>
+            </div>
+
+            <!-- Recent Security Activity Log -->
+            <div class="card shadow-sm border p-4 mb-4">
+              <h2 class="h5 fw-bold mb-2">Recent Security Activity</h2>
+              <p class="text-muted small mb-3">
+                Audited sign-in attempts and risk scores recorded for your account.
+              </p>
+              <div id="events-list" class="d-flex flex-column gap-2">
+                <div class="text-muted small">Loading activity log...</div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo"></footer>
+
+  <script type="module" src="js/pages/account.js"></script>
+</body>
+</html>

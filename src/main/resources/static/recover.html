@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-text-size="md">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+  <title>Reset your password - AuthEase</title>
+  
+  <!-- Vendored Bootstrap 5.3 -->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- AuthEase Design System & Accessibility Styles -->
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="app-header" role="banner"></header>
+
+  <main id="main-content" class="flex-grow-1 d-flex align-items-center py-4 py-md-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
+          <div class="card-auth shadow-sm">
+            <div id="error-summary-slot"></div>
+
+            <!-- STEP 1: REQUEST RECOVERY FORM -->
+            <div id="step-request">
+              <h1 class="h3 fw-bold mb-2" id="recover-heading" tabindex="-1">Reset password</h1>
+              <p class="text-muted small mb-4">Enter your registered email address and we'll send you a secure recovery link.</p>
+
+              <form id="form-request" novalidate>
+                <div class="mb-3">
+                  <label for="recovery-email" class="form-label fw-semibold">Email address</label>
+                  <input type="email" id="recovery-email" class="form-control" placeholder="name@example.com" required>
+                </div>
+                <button type="submit" class="btn btn-ae-primary w-100 fs-5 mb-3" id="btn-submit-request">
+                  Send recovery link
+                </button>
+              </form>
+              <div class="text-center pt-2 border-top">
+                <a href="login.html" class="small text-decoration-underline">Back to Sign In</a>
+              </div>
+            </div>
+
+            <!-- STEP 1 SUCCESS NOTICE -->
+            <div id="step-requested-notice" class="text-center d-none">
+              <div class="text-success display-6 mb-2">✉️</div>
+              <h2 class="h4 fw-bold mb-2">Recovery link sent!</h2>
+              <p class="text-muted small mb-4">
+                If an account exists for <strong id="notice-email">your email</strong>, instructions to reset your password have been dispatched.
+              </p>
+              <div class="p-3 bg-light rounded border mb-4">
+                <span class="small text-muted d-block mb-2">Testing with simulated environment?</span>
+                <a href="dev-outbox.html" class="btn btn-sm btn-primary">Open Dev Outbox to click link</a>
+              </div>
+              <a href="login.html" class="small text-decoration-underline">Back to Sign In</a>
+            </div>
+
+            <!-- STEP 2: SET NEW PASSWORD FORM (When token is provided) -->
+            <div id="step-reset" class="d-none">
+              <h1 class="h3 fw-bold mb-2">Choose new password</h1>
+              <p class="text-muted small mb-4">Enter a strong new password for your account.</p>
+
+              <form id="form-reset" novalidate>
+                <div class="mb-3">
+                  <label for="new-password" class="form-label fw-semibold">New password</label>
+                  <input type="password" id="new-password" class="form-control" placeholder="At least 8 characters" required>
+                  <div class="form-text small">NIST SP 800-63B standard: We recommend a 4-word passphrase.</div>
+                </div>
+
+                <div id="second-factor-group" class="mb-3 d-none">
+                  <label for="second-factor-code" class="form-label fw-semibold">2FA Authenticator or Backup Code</label>
+                  <input type="text" id="second-factor-code" class="form-control" placeholder="6-digit code or backup code">
+                  <div class="form-text small">Required because 2FA is active on this account.</div>
+                </div>
+
+                <button type="submit" class="btn btn-ae-primary w-100 fs-5 mb-3" id="btn-submit-reset">
+                  Save new password
+                </button>
+              </form>
+            </div>
+
+            <!-- STEP 2 SUCCESS -->
+            <div id="step-reset-success" class="text-center d-none">
+              <div class="text-success display-6 mb-2">✅</div>
+              <h2 class="h4 fw-bold mb-2">Password changed!</h2>
+              <p class="text-muted small mb-4">Your password has been successfully updated. You can now sign in.</p>
+              <a href="login.html" class="btn btn-ae-primary w-100 fs-5">Sign In Now</a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo"></footer>
+
+  <script type="module" src="js/pages/recover.js"></script>
+</body>
+</html>

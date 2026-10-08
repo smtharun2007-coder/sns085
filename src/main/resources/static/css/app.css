@@ -191,15 +191,43 @@ body.guided-mode .form-label {
 }
 body.guided-mode .guided-hint {
   display: block !important;
-  background-color: var(--ae-info-bg);
-  border: 1px solid var(--ae-info-border);
-  color: var(--ae-info-text);
-  padding: 0.75rem 1rem;
-  border-radius: var(--ae-radius-sm);
-  margin-bottom: 1rem;
+  background-color: #e7f1ff;
+  border: 1px solid #b6d4fe;
+  border-left: 5px solid #0d6efd;
+  color: #084298;
+  padding: 0.85rem 1.15rem;
+  border-radius: var(--ae-radius-sm, 6px);
+  margin-bottom: 1.25rem;
+  animation: fadeInHint 0.3s ease-in-out;
 }
 .guided-hint {
   display: none;
+}
+@keyframes fadeInHint {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Floating Guided Mode Toast Feedback */
+.guided-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #0d6efd;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  z-index: 10000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+.guided-toast.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Global Reset & Typography */

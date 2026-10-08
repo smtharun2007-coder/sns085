@@ -134,21 +134,42 @@ export function getTextSize() {
 export function setGuidedMode(enabled, notify = true) {
   if (enabled) {
     document.body.classList.add('guided-mode');
+    document.documentElement.classList.add('guided-mode');
     localStorage.setItem(GUIDED_MODE_KEY, '1');
   } else {
     document.body.classList.remove('guided-mode');
+    document.documentElement.classList.remove('guided-mode');
     localStorage.removeItem(GUIDED_MODE_KEY);
   }
 
   const toggleBtn = document.getElementById('ae-guided-toggle');
   if (toggleBtn) {
+    toggleBtn.checked = !!enabled;
     toggleBtn.setAttribute('aria-checked', enabled ? 'true' : 'false');
-    toggleBtn.classList.toggle('active', enabled);
+    toggleBtn.classList.toggle('active', !!enabled);
   }
 
   if (notify) {
     announce(enabled ? 'Guided mode enabled. Showing extra hints.' : 'Guided mode turned off.');
+    showGuidedToast(enabled);
   }
+}
+
+function showGuidedToast(enabled) {
+  let toast = document.getElementById('ae-guided-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'ae-guided-toast';
+    toast.className = 'guided-toast shadow-lg';
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = enabled
+    ? `<span><strong>💡 Guided Mode On:</strong> Step-by-step tips and extra guidance are now visible.</span>`
+    : `<span><strong>Standard View:</strong> Standard view restored.</span>`;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
 }
 
 export function isGuidedMode() {

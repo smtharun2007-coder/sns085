@@ -4,6 +4,7 @@ import com.authease.model.EmailOutbox;
 import com.authease.repository.EmailOutboxRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,13 @@ public class DevController {
     public ResponseEntity<List<EmailOutbox>> getOutbox(HttpServletRequest request) {
         String sessionId = resolveDemoSessionId(request);
         List<EmailOutbox> outboxList = outboxRepository.findByDemoSessionIdOrderByTsDesc(sessionId);
+        if (outboxList.isEmpty()) {
+            List<EmailOutbox> all = outboxRepository.findAll(Sort.by(Sort.Direction.DESC, "ts"));
+            if (all.size() > 25) {
+                all = all.subList(0, 25);
+            }
+            return ResponseEntity.ok(all);
+        }
         return ResponseEntity.ok(outboxList);
     }
 
