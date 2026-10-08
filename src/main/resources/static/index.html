@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-text-size="md">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+  <title>AuthEase - Secure & Accessible Digital Authentication</title>
+  
+  <!-- Vendored Bootstrap 5.3 -->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- AuthEase Design System & Accessibility Styles -->
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="app-header" role="banner"></header>
+
+  <main id="main-content" class="flex-grow-1 d-flex align-items-center py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8 text-center">
+
+          <!-- Accessibility Badge -->
+          <div class="mb-3">
+            <span class="badge bg-light text-primary border px-3 py-2 fw-semibold" style="font-size:0.9rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="me-1" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+              WCAG 2.2 AA Compliant • Grade 6–8 Reading Level
+            </span>
+          </div>
+
+          <!-- Single H1 per page -->
+          <h1 class="display-4 fw-bold mb-3">Security that understands you.</h1>
+
+          <p class="lead text-muted mb-4 mx-auto" style="max-width: 650px;">
+            AuthEase adapts authentication to your context. We keep your accounts safe without confusing puzzles, impossible password rules, or inaccessible friction.
+          </p>
+
+          <!-- Core Call to Action Buttons -->
+          <div class="d-flex flex-wrap justify-content-center gap-3 mb-5">
+            <a href="login.html" class="btn btn-ae-primary px-4 py-2 fs-5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-2" aria-hidden="true">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+              </svg>
+              Log in
+            </a>
+            <a href="register.html" class="btn btn-ae-outline px-4 py-2 fs-5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-2" aria-hidden="true">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7.5" r="4"></circle>
+                <line x1="20" y1="8" x2="20" y2="14"></line>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+              </svg>
+              Create account
+            </a>
+            <a href="help.html" class="btn btn-ae-outline px-4 py-2 fs-5">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              Help & Guides
+            </a>
+          </div>
+
+          <!-- Feature Highlights Card -->
+          <div class="row g-4 text-start mt-2">
+            <div class="col-md-4">
+              <div class="card h-100 p-3 border shadow-sm">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <div class="p-2 rounded bg-primary-subtle text-primary">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                  </div>
+                  <h2 class="h5 m-0 fw-bold">Adaptive Risk</h2>
+                </div>
+                <p class="text-muted small m-0">
+                  Known devices sign in instantly. Medium-risk logins ask for a 6-digit code. Suspicious sign-ins require email confirmation.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card h-100 p-3 border shadow-sm">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <div class="p-2 rounded bg-success-subtle text-success">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="m4.93 4.93 4.24 4.24"></path>
+                      <path d="m14.83 14.83 4.24 4.24"></path>
+                      <path d="m14.83 9.17 4.24-4.24"></path>
+                      <path d="m4.93 19.07 4.24-4.24"></path>
+                    </svg>
+                  </div>
+                  <h2 class="h5 m-0 fw-bold">Universal Access</h2>
+                </div>
+                <p class="text-muted small m-0">
+                  High-contrast mode, text scaling, speech synthesis ("Read aloud"), full keyboard navigation, and zero CAPTCHAs.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card h-100 p-3 border shadow-sm">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                  <div class="p-2 rounded bg-info-subtle text-info">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                  </div>
+                  <h2 class="h5 m-0 fw-bold">Clear Language</h2>
+                </div>
+                <p class="text-muted small m-0">
+                  Grade 6 to 8 plain explanations. Every security prompt clearly explains why it is being asked and what to do next.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Test Demo Scenarios Card -->
+          <div class="card p-4 border mt-5 text-start bg-body-tertiary">
+            <h2 class="h5 fw-bold mb-2">Hackathon Demo & Presets (Mock Mode)</h2>
+            <p class="small text-muted mb-3">
+              AuthEase runs 100% offline in your browser with full simulated flows and a live Dev Outbox. Click any preset below to test immediately:
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="login.html?scenario=trusted&mock=1" class="btn btn-sm btn-outline-success">
+                Scenario 1: Trusted Device (1-Click Instant)
+              </a>
+              <a href="login.html?scenario=new_device&mock=1" class="btn btn-sm btn-outline-primary">
+                Scenario 2: New Device (MFA Code 123456)
+              </a>
+              <a href="login.html?scenario=suspicious&mock=1" class="btn btn-sm btn-outline-danger">
+                Scenario 3: Suspicious Login (Email Approval Link)
+              </a>
+              <a href="login.html?scenario=wrong&mock=1" class="btn btn-sm btn-outline-warning">
+                Scenario 4: Wrong Password (Clear Error)
+              </a>
+              <a href="dev-outbox.html?mock=1" class="btn btn-sm btn-outline-secondary">
+                View Simulated Dev Outbox
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo"></footer>
+
+  <script type="module" src="js/pages/index.js"></script>
+</body>
+</html>

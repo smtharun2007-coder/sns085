@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-text-size="md">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+  <title>Check your email - AuthEase</title>
+  
+  <!-- Vendored Bootstrap 5.3 -->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- AuthEase Design System & Accessibility Styles -->
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="app-header" role="banner"></header>
+
+  <main id="main-content" class="flex-grow-1 d-flex align-items-center py-4 py-md-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
+          <div class="card-auth shadow-sm text-center">
+
+            <!-- Mail Envelope Icon -->
+            <div class="mb-3 text-primary">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+
+            <!-- Single H1 per page -->
+            <h1 class="h3 fw-bold mb-2" id="check-email-heading" tabindex="-1">Check your email</h1>
+            
+            <p class="text-muted small mb-3">
+              We sent a confirmation link to <strong id="target-email-display" class="text-body">your email</strong>.
+            </p>
+
+            <div class="alert alert-info py-2 px-3 small text-start mb-4">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="me-1 align-text-bottom" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>Click the link in the message to activate your account and finish signing in.</span>
+            </div>
+
+            <!-- Resend Button with 60-Second Cooldown -->
+            <div class="mb-4">
+              <button type="button" class="btn btn-ae-outline w-100" id="btn-resend">
+                Resend confirmation email
+              </button>
+              <div id="resend-status" class="small text-muted mt-2" role="status" aria-live="polite"></div>
+            </div>
+
+            <!-- Simulated Outbox Link (Shown when demo/mock mode is active) -->
+            <div id="outbox-demo-box" class="p-3 bg-muted rounded border text-center mb-4">
+              <span class="small text-muted d-block mb-2">Hackathon / Demo Simulator:</span>
+              <a href="dev-outbox.html" class="btn btn-sm btn-primary d-inline-flex align-items-center gap-1" id="link-dev-outbox">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span>View Simulated Email in Dev Outbox</span>
+              </a>
+            </div>
+
+            <!-- Return to Login Link -->
+            <div class="pt-3 border-top">
+              <a href="login.html" class="small text-decoration-underline">Back to Sign In</a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo"></footer>
+
+  <script type="module" src="js/pages/check-email.js"></script>
+</body>
+</html>

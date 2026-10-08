@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-text-size="md">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+  <title>Sign-in Approval - AuthEase</title>
+  
+  <!-- Vendored Bootstrap 5.3 -->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- AuthEase Design System & Accessibility Styles -->
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="app-header" role="banner"></header>
+
+  <main id="main-content" class="flex-grow-1 d-flex align-items-center py-4 py-md-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
+          <div class="card-auth shadow-sm text-center">
+
+            <!-- STATE 1: PROMPT (Never changes on load!) -->
+            <div id="approve-state-prompt">
+              <div class="mb-3 text-warning">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="mx-auto" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+              </div>
+
+              <h1 class="h3 fw-bold mb-2" id="approve-heading" tabindex="-1">Is this sign-in attempt yours?</h1>
+              
+              <p class="text-muted small mb-4">
+                We detected a sign-in attempt from a new location or unusual time. Please choose an option below to confirm or block it.
+              </p>
+
+              <!-- Two Large Accessible Action Buttons -->
+              <div class="d-grid gap-3 mb-4">
+                <button type="button" class="btn btn-success py-3 fs-5 fw-bold text-white d-flex align-items-center justify-content-center gap-2" id="btn-approve">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  <span>Yes, it was me</span>
+                </button>
+
+                <button type="button" class="btn btn-danger py-3 fs-5 fw-bold text-white d-flex align-items-center justify-content-center gap-2" id="btn-deny">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                  <span>No, this wasn't me</span>
+                </button>
+              </div>
+
+              <div class="small text-muted">
+                Action requires your explicit click. This page will never approve or deny automatically.
+              </div>
+            </div>
+
+            <!-- STATE 2: APPROVED RESULT -->
+            <div id="approve-state-approved" class="d-none py-3">
+              <div class="mb-3 text-success">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mx-auto" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="16 12 12 8 8 12"></polyline>
+                  <line x1="12" y1="16" x2="12" y2="8"></line>
+                </svg>
+              </div>
+              <h1 class="h3 fw-bold mb-2" id="approved-heading" tabindex="-1">Sign-in Approved</h1>
+              <p class="text-muted small mb-4">
+                Thank you for confirming. Your sign-in was verified. You can return to your original browser tab now to continue.
+              </p>
+              <div class="d-grid gap-2">
+                <a href="index.html" class="btn btn-ae-outline">Return to Home</a>
+              </div>
+            </div>
+
+            <!-- STATE 3: DENIED RESULT -->
+            <div id="approve-state-denied" class="d-none py-3 text-start">
+              <div class="alert alert-danger py-3 mb-3">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                  <h1 class="h5 fw-bold m-0" id="denied-heading" tabindex="-1">Sign-in Blocked</h1>
+                </div>
+                <p class="small m-0">
+                  Because you did not make this attempt, someone else may have entered your password.
+                </p>
+              </div>
+
+              <div class="card p-3 border mb-4 bg-body-tertiary">
+                <h2 class="h6 fw-bold mb-1">Recommended Security Action</h2>
+                <p class="small text-muted mb-3">
+                  Change your password immediately to protect your account and disconnect any unauthorized attempts.
+                </p>
+                <a href="recover.html" class="btn btn-danger w-100 fw-bold">
+                  Change your password now
+                </a>
+              </div>
+
+              <div class="text-center pt-2">
+                <a href="index.html" class="small text-decoration-underline">Return to Home</a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo"></footer>
+
+  <script type="module" src="js/pages/approve.js"></script>
+</body>
+</html>

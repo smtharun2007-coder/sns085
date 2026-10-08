@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-text-size="md">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+  <title>Sign in - AuthEase</title>
+  
+  <!-- Vendored Bootstrap 5.3 -->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- AuthEase Design System & Accessibility Styles -->
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="app-header" role="banner"></header>
+
+  <main id="main-content" class="flex-grow-1 d-flex align-items-center py-4 py-md-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+
+          <!-- Accessible Card Container -->
+          <div class="card-auth shadow-sm">
+            
+            <!-- Dynamic Step Progress Region (Rendered by JS) -->
+            <div id="step-indicator-slot"></div>
+
+            <!-- Error Summary Anchor Region (WCAG 3.3.1 / 3.3.3) -->
+            <div id="error-summary-slot"></div>
+
+            <!-- STATE 1: CREDENTIALS STEP -->
+            <div id="state-credentials" class="auth-state-step">
+              <h1 class="h3 fw-bold mb-2" id="login-heading">Sign in to your account</h1>
+              <p class="text-muted small mb-4">Enter your email address and password to continue.</p>
+
+              <div class="guided-hint">
+                <strong>Tip:</strong> Take your time. You can use your password manager or paste your password.
+              </div>
+
+              <form id="form-credentials" novalidate>
+                <!-- Email Field -->
+                <div class="mb-3">
+                  <label for="email" class="form-label fw-semibold">Email address</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="form-control" 
+                    autocomplete="username" 
+                    inputmode="email"
+                    placeholder="name@example.com" 
+                    required 
+                    aria-describedby="email-error email-hint">
+                  <div id="email-hint" class="form-text">We will never share your email address.</div>
+                  <div id="email-error" class="field-error-message d-none" role="alert"></div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <label for="password" class="form-label fw-semibold mb-0">Password</label>
+                    <a href="recover.html" class="small text-decoration-underline" tabindex="0">Forgot password?</a>
+                  </div>
+                  <div class="input-group mt-1">
+                    <input 
+                      type="password" 
+                      id="password" 
+                      name="password" 
+                      class="form-control" 
+                      autocomplete="current-password" 
+                      placeholder="Enter your password" 
+                      required 
+                      aria-describedby="password-error">
+                    <button 
+                      type="button" 
+                      class="btn password-toggle-btn" 
+                      id="toggle-password-btn" 
+                      aria-label="Show password as plain text"
+                      aria-pressed="false">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon" aria-hidden="true">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                  </div>
+                  <div id="password-error" class="field-error-message d-none" role="alert"></div>
+                </div>
+
+                <!-- Rate Limit Delayed Banner (Active when delayed) -->
+                <div id="delayed-banner" class="alert alert-warning d-none mb-3" role="status" aria-live="polite">
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <strong class="delayed-title">Temporary pause</strong>
+                  </div>
+                  <p class="delayed-message small m-0 mb-1"></p>
+                  <div class="fw-bold delayed-countdown small"></div>
+                </div>
+
+                <!-- Resend Verification Banner (Active when unverified) -->
+                <div id="unverified-banner" class="alert alert-info d-none mb-3" role="region" aria-label="Verification email action">
+                  <p class="small mb-2">Need a new activation link?</p>
+                  <button type="button" class="btn btn-sm btn-outline-primary" id="btn-resend-verification">
+                    Send me a new verification link
+                  </button>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-ae-primary w-100 fs-5 mt-2" id="btn-submit-credentials">
+                  Continue
+                </button>
+              </form>
+
+              <!-- Link to Register -->
+              <div class="text-center mt-4 pt-3 border-top">
+                <span class="text-muted small">Don't have an account yet?</span>
+                <a href="register.html" class="small fw-semibold ms-1 text-decoration-underline">Create an account</a>
+              </div>
+            </div>
+
+            <!-- STATE 2: SECOND FACTOR (MFA) STEP -->
+            <div id="state-second-factor" class="auth-state-step d-none">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h1 class="h4 fw-bold m-0" id="mfa-heading" tabindex="-1">Confirm your identity</h1>
+                <div id="mfa-risk-badge-slot"></div>
+              </div>
+
+              <!-- "Why am I being asked this?" Accessible Disclosure -->
+              <div id="mfa-why-disclosure-slot"></div>
+
+              <div class="guided-hint">
+                <strong>Tip:</strong> You can choose whether to check your authenticator app, get an email code, or use a backup code.
+              </div>
+
+              <form id="form-mfa" novalidate>
+                <!-- Method Selection Radio Group -->
+                <fieldset class="mb-3">
+                  <legend class="form-label fw-semibold small text-uppercase text-muted mb-2">Select verification method</legend>
+                  <div class="d-flex flex-column gap-2" id="mfa-methods-group">
+                    <!-- Radios rendered dynamically based on server response -->
+                  </div>
+                </fieldset>
+
+                <!-- Resend Email OTP Button (Only visible when Email OTP selected) -->
+                <div id="email-otp-action-box" class="mb-3 d-none">
+                  <button type="button" class="btn btn-sm btn-ae-outline w-100" id="btn-send-email-otp">
+                    Send code to my email
+                  </button>
+                  <div id="otp-resend-status" class="small text-muted mt-1 text-center" aria-live="polite"></div>
+                </div>
+
+                <!-- Single Code Input (WCAG compliant single field, not 6 boxes) -->
+                <div class="mb-3">
+                  <label for="mfa-code" class="form-label fw-semibold" id="mfa-code-label">Enter security code</label>
+                  <input 
+                    type="text" 
+                    id="mfa-code" 
+                    name="mfaCode" 
+                    class="form-control text-center fs-3 font-monospace letter-spacing-1" 
+                    autocomplete="one-time-code" 
+                    inputmode="numeric" 
+                    placeholder="123456" 
+                    required 
+                    maxlength="12"
+                    aria-describedby="mfa-code-hint mfa-code-error">
+                  <div id="mfa-code-hint" class="form-text small text-center">
+                    Paste is allowed. Code is 6 digits (or an 8-character backup code).
+                  </div>
+                  <div id="mfa-code-error" class="field-error-message text-center justify-content-center d-none" role="alert"></div>
+                </div>
+
+                <!-- Remember Device Checkbox (Unticked by default) -->
+                <div class="form-check mb-4 p-3 bg-muted rounded border">
+                  <input class="form-check-input" type="checkbox" id="remember-device" name="rememberDevice">
+                  <label class="form-check-label fw-semibold small" for="remember-device">
+                    Remember this device for 30 days
+                  </label>
+                  <div class="text-muted small mt-1">
+                    Only check this if this is your private computer or phone. Do not check on public computers.
+                  </div>
+                </div>
+
+                <!-- MFA Submit & Cancel Buttons -->
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-ae-primary fs-5" id="btn-submit-mfa">
+                    Verify and sign in
+                  </button>
+                  <button type="button" class="btn btn-ae-outline" id="btn-cancel-mfa">
+                    Back to email and password
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- STATE 3: WAITING FOR EMAIL APPROVAL STEP -->
+            <div id="state-email-approval" class="auth-state-step d-none">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h1 class="h4 fw-bold m-0" id="approval-heading" tabindex="-1">Email approval required</h1>
+                <div id="approval-risk-badge-slot"></div>
+              </div>
+
+              <div id="approval-why-disclosure-slot"></div>
+
+              <div class="alert alert-info py-3 mb-3">
+                <div class="d-flex align-items-start gap-2">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mt-1 flex-shrink-0" aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                  <div>
+                    <h2 class="h6 fw-bold mb-1">Check your inbox</h2>
+                    <p class="small mb-0">
+                      We emailed you a verification link. Open it, select <strong>"Yes, it was me"</strong>, and return here. This screen will automatically update.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Live Polling Status Region -->
+              <div class="p-3 bg-muted rounded border text-center mb-4">
+                <div class="spinner-border spinner-border-sm text-primary me-2" role="status" aria-hidden="true"></div>
+                <span id="approval-polling-status" class="small fw-semibold" aria-live="polite">
+                  Waiting for confirmation from your email...
+                </span>
+                <div id="approval-delay-remaining" class="small text-muted mt-1 d-none"></div>
+              </div>
+
+              <!-- Direct links for demo tester convenience -->
+              <div class="card p-3 border-dashed bg-body-tertiary text-center mb-3">
+                <span class="small text-muted mb-2">Testing / Demonstration shortcut:</span>
+                <a href="#" id="demo-direct-approval-link" target="_blank" class="btn btn-sm btn-outline-primary mb-1">
+                  Open approval page in new tab
+                </a>
+                <a href="dev-outbox.html" target="_blank" class="small text-decoration-underline">
+                  Or view simulated email in Dev Outbox
+                </a>
+              </div>
+
+              <button type="button" class="btn btn-ae-outline w-100" id="btn-cancel-approval">
+                Cancel and return to sign in
+              </button>
+            </div>
+
+            <!-- STATE 4: SUCCESS STEP -->
+            <div id="state-success" class="auth-state-step d-none text-center py-4">
+              <div class="mb-3 text-success">
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="mx-auto" aria-hidden="true">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <h1 class="h3 fw-bold mb-2" id="success-heading" tabindex="-1">You are signed in!</h1>
+              <p class="text-muted small mb-4" id="success-user-display">Welcome back to AuthEase.</p>
+              
+              <div class="d-grid gap-2">
+                <a href="account.html" class="btn btn-ae-primary fs-5">
+                  Go to Security Center
+                </a>
+                <a href="index.html" class="btn btn-ae-outline">
+                  Return to Home
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer" role="contentinfo"></footer>
+
+  <script type="module" src="js/pages/login.js"></script>
+</body>
+</html>
