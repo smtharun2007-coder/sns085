@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,25 +24,15 @@ public class DevController {
     }
 
     @GetMapping("/outbox")
-    public ResponseEntity<List<EmailOutbox>> getOutbox(HttpServletRequest request) {
-        String sessionId = resolveDemoSessionId(request);
-        List<EmailOutbox> outboxList = outboxRepository.findByDemoSessionIdOrderByTsDesc(sessionId);
-        if (outboxList.isEmpty()) {
-            List<EmailOutbox> all = outboxRepository.findAll(Sort.by(Sort.Direction.DESC, "ts"));
-            if (all.size() > 25) {
-                all = all.subList(0, 25);
-            }
-            return ResponseEntity.ok(all);
+    public ResponseEntity<List<EmailOutbox>> getOutbox(@RequestParam(value = "to", required = false) String to) {
+        if (to != null && !to.isBlank()) {
+            List<EmailOutbox> filtered = outboxRepository.findByToIgnoreCaseOrderByTsDesc(to.trim());
+            return ResponseEntity.ok(filtered);
         }
-        return ResponseEntity.ok(outboxList);
-    }
-
-    private String resolveDemoSessionId(HttpServletRequest request) {
-        String headerSession = request.getHeader("X-Demo-Session");
-        if (headerSession != null && !headerSession.isBlank()) {
-            return headerSession.trim();
+        List<EmailOutbox> all = outboxRepository.findAll(Sort.by(Sort.Direction.DESC, "ts"));
+        if (all.size() > 50) {
+            all = all.subList(0, 50);
         }
-        HttpSession session = request.getSession(false);
-        return session != null ? session.getId() : "default";
+        return ResponseEntity.ok(all);
     }
 }

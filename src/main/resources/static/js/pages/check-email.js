@@ -5,7 +5,7 @@
  * Features:
  * - 60-second accessible cooldown timer on resend
  * - Screen reader announcements
- * - Simulated Dev Outbox integration
+ * - Simulated Dev Outbox integration & automatic polling
  */
 
 import { mountShell } from '../ui.js';
@@ -31,6 +31,11 @@ function initCheckEmailPage() {
     emailDisplay.textContent = email;
   }
 
+  const devOutboxLink = document.getElementById('link-dev-outbox');
+  if (devOutboxLink && email && email !== 'your email address') {
+    devOutboxLink.href = `dev-outbox.html?email=${encodeURIComponent(email)}`;
+  }
+
   const resendBtn = document.getElementById('btn-resend');
   const resendStatus = document.getElementById('resend-status');
 
@@ -53,41 +58,59 @@ function initCheckEmailPage() {
     });
   }
 
-  // Check outbox right away to offer 1-click activation
+  // Check outbox right away and poll up to 6 times (every 1.5s)
   checkLatestOutboxLink(email);
+  let pollAttempts = 0;
+  const pollTimer = setInterval(async () => {
+    pollAttempts++;
+    const found = await checkLatestOutboxLink(email);
+    if (found || pollAttempts >= 6) {
+      clearInterval(pollTimer);
+    }
+  }, 1500);
 }
 
 async function checkLatestOutboxLink(email) {
   const slot = document.getElementById('instant-activation-slot');
-  if (!slot) return;
+  if (!slot) return false;
 
   try {
     const res = await api.getDevOutbox();
     if (res.ok && Array.isArray(res.data) && res.data.length > 0) {
-      const msg = res.data.find(m => (!email || email === 'your email address' || m.to?.toLowerCase() === email.toLowerCase()) && (m.subject?.includes('Verify') || m.type === 'VERIFICATION')) || res.data[0];
+      const msg = res.data.find(m => 
+        (email && email !== 'your email address' && m.to?.toLowerCase() === email.toLowerCase())
+      ) || res.data.find(m => (m.subject?.includes('Verify') || m.type === 'VERIFICATION')) || res.data[0];
 
       if (msg) {
-        const tokenMatch = (msg.body + ' ' + (msg.actionUrl || '') + ' ' + (msg.token || '')).match(/token=([a-zA-Z0-9_-]+)/i);
-        const token = tokenMatch ? tokenMatch[1] : (msg.token || null);
+        let token = msg.token || null;
+        if (!token) {
+          const tokenMatch = (msg.body + ' ' + (msg.actionUrl || '')).match(/token=([a-zA-Z0-9_-]+)/i);
+          if (tokenMatch) token = tokenMatch[1];
+        }
 
         if (token) {
           slot.innerHTML = `
             <div class="alert alert-success p-3 text-start shadow-sm border-success">
               <div class="d-flex align-items-center gap-2 mb-2 text-success">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-                <strong class="fs-6">Instant Activation Available:</strong>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                <strong class="fs-6">Instant Activation Link Detected:</strong>
               </div>
-              <p class="small text-dark mb-3">Your verification email was generated in the outbox. Click below to activate your account immediately:</p>
-              <a href="verify-email.html?token=${encodeURIComponent(token)}" class="btn btn-success w-100 fw-bold fs-6 py-2 shadow-sm">
+              <p class="small text-dark mb-2">Simulated verification email for <strong>${escapeHtml(msg.to || email)}</strong> was received:</p>
+              <a href="verify-email.html?token=${encodeURIComponent(token)}" class="btn btn-success w-100 fw-bold fs-6 py-2 shadow-sm mb-2">
                 👉 Click Here to Activate Account Instantly
               </a>
+              <div class="small text-muted text-center">
+                Or inspect message details in the <a href="dev-outbox.html?email=${encodeURIComponent(email)}" class="text-decoration-underline">Simulated Dev Outbox</a>.
+              </div>
             </div>
           `;
           announce('Verification link detected. Click the button to activate your account.');
+          return true;
         }
       }
     }
   } catch (_) {}
+  return false;
 }
 
 function startResendCooldown(btn, statusEl) {
@@ -106,4 +129,9 @@ function startResendCooldown(btn, statusEl) {
     }
     btn.textContent = messages.checkEmail.resendCooldown(remaining);
   }, 1000);
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  return String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }

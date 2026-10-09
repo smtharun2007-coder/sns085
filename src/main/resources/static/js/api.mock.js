@@ -10,8 +10,25 @@ const STORAGE_PREFIX = 'authease.mock.';
 
 function getMockState() {
   try {
-    const raw = sessionStorage.getItem(STORAGE_PREFIX + 'state');
-    if (raw) return JSON.parse(raw);
+    const raw = localStorage.getItem(STORAGE_PREFIX + 'state');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (!parsed.outbox || !Array.isArray(parsed.outbox) || parsed.outbox.length === 0) {
+        parsed.outbox = [
+          {
+            id: 'msg-starter-01',
+            to: 'demo@authease.local',
+            subject: 'Verify your AuthEase account (Starter Sample)',
+            type: 'VERIFICATION',
+            token: 'mock-verify-token-welcome',
+            actionUrl: 'verify-email.html?token=mock-verify-token-welcome',
+            body: 'Welcome to AuthEase!\n\nThis is a starter sample email in your Simulated Dev Outbox.\nYou can register with ANY email address you want (e.g. test@example.com or your personal email), and your verification emails will appear right here!\n\nPlease verify your email address by opening the following link:\nverify-email.html?token=mock-verify-token-welcome\n\nThis link will expire in 24 hours.',
+            ts: new Date().toISOString()
+          }
+        ];
+      }
+      return parsed;
+    }
   } catch (e) {}
 
   return {
@@ -27,7 +44,18 @@ function getMockState() {
     consecutiveFailures: 0,
     rateDelayUntil: 0,
     challenges: {},
-    outbox: [],
+    outbox: [
+      {
+        id: 'msg-starter-01',
+        to: 'demo@authease.local',
+        subject: 'Verify your AuthEase account (Starter Sample)',
+        type: 'VERIFICATION',
+        token: 'mock-verify-token-welcome',
+        actionUrl: 'verify-email.html?token=mock-verify-token-welcome',
+        body: 'Welcome to AuthEase!\n\nThis is a starter sample email in your Simulated Dev Outbox.\nYou can register with ANY email address you want (e.g. test@example.com or your personal email), and your verification emails will appear right here!\n\nPlease verify your email address by opening the following link:\nverify-email.html?token=mock-verify-token-welcome\n\nThis link will expire in 24 hours.',
+        ts: new Date().toISOString()
+      }
+    ],
     events: [
       { id: 'ev-1', type: 'LOGIN_SUCCESS', level: 'LOW', timestamp: new Date(Date.now() - 3600000).toISOString(), ip: '192.168.1.10', userAgent: 'Chrome on Windows' },
       { id: 'ev-2', type: 'MFA_CHALLENGE', level: 'MEDIUM', timestamp: new Date(Date.now() - 7200000).toISOString(), ip: '198.51.100.24', userAgent: 'Safari on iPhone' },
@@ -51,7 +79,7 @@ function getMockState() {
 
 function saveMockState(state) {
   try {
-    sessionStorage.setItem(STORAGE_PREFIX + 'state', JSON.stringify(state));
+    localStorage.setItem(STORAGE_PREFIX + 'state', JSON.stringify(state));
   } catch (e) {}
 }
 
@@ -61,6 +89,7 @@ function saveMockState(state) {
 function sendToDevOutbox(state, emailData) {
   state.outbox.unshift({
     id: 'msg-' + Math.random().toString(36).substring(2, 9),
+    ts: new Date().toISOString(),
     timestamp: new Date().toLocaleTimeString(),
     ...emailData
   });
@@ -125,20 +154,21 @@ export async function mockFetch(url, options = {}) {
 
   // --- POST /api/auth/register ---
   if (url === '/api/auth/register') {
+    const rawToken = 'mock-verify-' + Math.random().toString(36).substring(2, 10);
     sendToDevOutbox(state, {
       to: body.email,
       subject: 'Verify your AuthEase account',
       type: 'VERIFICATION',
-      token: 'mock-verify-token-123',
-      actionUrl: `verify-email.html?token=mock-verify-token-123`,
-      body: `Hi ${body.displayName || 'there'}, please verify your email address to complete your registration.`
+      token: rawToken,
+      actionUrl: `verify-email.html?token=${rawToken}`,
+      body: `Welcome to AuthEase!\n\nPlease verify your email address by opening the following link:\nverify-email.html?token=${rawToken}\n\nThis link will expire in 24 hours.`
     });
     return { ok: true, status: 200, json: async () => ({ status: 'OK' }) };
   }
 
   // --- POST /api/auth/verify-email ---
   if (url === '/api/auth/verify-email') {
-    if (body.token === 'mock-verify-token-123' || body.token) {
+    if (body.token) {
       return { ok: true, status: 200, json: async () => ({ status: 'OK' }) };
     }
     return {
@@ -153,13 +183,14 @@ export async function mockFetch(url, options = {}) {
 
   // --- POST /api/auth/resend-verification ---
   if (url === '/api/auth/resend-verification') {
+    const rawToken = 'mock-verify-' + Math.random().toString(36).substring(2, 10);
     sendToDevOutbox(state, {
       to: body.email || 'user@example.com',
       subject: 'New Verification Link - AuthEase',
       type: 'VERIFICATION',
-      token: 'mock-verify-token-new',
-      actionUrl: `verify-email.html?token=mock-verify-token-new`,
-      body: 'Here is your new account verification link.'
+      token: rawToken,
+      actionUrl: `verify-email.html?token=${rawToken}`,
+      body: `Welcome to AuthEase!\n\nHere is your new account verification link:\nverify-email.html?token=${rawToken}\n\nThis link will expire in 24 hours.`
     });
     return { ok: true, status: 200, json: async () => ({ status: 'OK' }) };
   }
@@ -633,7 +664,14 @@ export async function mockFetch(url, options = {}) {
     return { ok: true, status: 200, json: async () => state.demoContext };
   }
 
-  if (url === '/api/dev/outbox') {
+  if (url.startsWith('/api/dev/outbox')) {
+    const queryPart = url.includes('?') ? url.split('?')[1] : '';
+    const params = new URLSearchParams(queryPart);
+    const toFilter = params.get('to');
+    if (toFilter) {
+      const filtered = state.outbox.filter(m => m.to && m.to.toLowerCase() === toFilter.toLowerCase());
+      return { ok: true, status: 200, json: async () => filtered };
+    }
     return {
       ok: true,
       status: 200,

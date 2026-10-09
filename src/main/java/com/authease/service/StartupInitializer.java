@@ -2,6 +2,8 @@ package com.authease.service;
 
 import com.authease.config.AppProperties;
 import com.authease.model.*;
+import com.authease.repository.EmailOutboxRepository;
+import com.authease.repository.EmailTokenRepository;
 import com.authease.repository.UserRepository;
 import com.authease.security.Argon2SecurityUtil;
 import com.authease.util.CryptoUtil;
@@ -30,17 +32,23 @@ public class StartupInitializer implements ApplicationRunner {
     private final MongoTemplate mongoTemplate;
     private final UserRepository userRepository;
     private final Argon2SecurityUtil passwordEncoder;
+    private final EmailOutboxRepository emailOutboxRepository;
+    private final EmailTokenRepository emailTokenRepository;
 
     public StartupInitializer(AppProperties appProperties,
                               Environment environment,
                               MongoTemplate mongoTemplate,
                               UserRepository userRepository,
-                              Argon2SecurityUtil passwordEncoder) {
+                              Argon2SecurityUtil passwordEncoder,
+                              EmailOutboxRepository emailOutboxRepository,
+                              EmailTokenRepository emailTokenRepository) {
         this.appProperties = appProperties;
         this.environment = environment;
         this.mongoTemplate = mongoTemplate;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailOutboxRepository = emailOutboxRepository;
+        this.emailTokenRepository = emailTokenRepository;
     }
 
     @Override
@@ -49,6 +57,7 @@ public class StartupInitializer implements ApplicationRunner {
         ensureIndexes();
         if (appProperties.isDemoMode()) {
             seedDemoUsers();
+            seedDemoOutbox();
         }
     }
 
@@ -136,6 +145,45 @@ public class StartupInitializer implements ApplicationRunner {
             }
         } catch (Exception e) {
             log.warn("Demo user seeding skipped (database may not be connected yet): {}", e.getMessage());
+        }
+    }
+
+    private void seedDemoOutbox() {
+        try {
+            if (emailOutboxRepository.count() == 0) {
+                String demoEmail = "demo@authease.local";
+                String rawToken = "demo-starter-verify-token";
+                String tokenHash = CryptoUtil.sha256(rawToken);
+
+                User starterUser = userRepository.findByEmail(demoEmail).orElseGet(() -> {
+                    User u = new User(demoEmail, "Starter Demo User", passwordEncoder.encode("DemoUser@Pass123"));
+                    u.setEmailVerified(false);
+                    return userRepository.save(u);
+                });
+
+                EmailToken token = new EmailToken(starterUser.getId(), TokenType.VERIFY, tokenHash, Instant.now().plus(Duration.ofDays(7)));
+                emailTokenRepository.save(token);
+
+                String verifyLink = appProperties.getBaseUrl() + "/verify-email.html?token=" + rawToken;
+                EmailOutbox sampleEmail = new EmailOutbox(
+                        "global-demo",
+                        demoEmail,
+                        "Verify your AuthEase account (Starter Sample)",
+                        "Welcome to AuthEase!\n\n"
+                                + "This is a starter sample email in your Simulated Dev Outbox.\n"
+                                + "You can register with ANY email address you want (e.g. your personal Gmail or test@example.com), and all verification links will appear right here!\n\n"
+                                + "To test account verification right now with this starter email, open the link below:\n"
+                                + verifyLink + "\n\n"
+                                + "This link will expire in 7 days."
+                );
+                sampleEmail.setTs(Instant.now());
+                emailOutboxRepository.save(sampleEmail);
+                log.info("--------------------------------------------------");
+                log.info("SEED STARTER EMAIL OUTBOX CREATED for {}", demoEmail);
+                log.info("--------------------------------------------------");
+            }
+        } catch (Exception e) {
+            log.warn("Demo outbox seeding skipped: {}", e.getMessage());
         }
     }
 }

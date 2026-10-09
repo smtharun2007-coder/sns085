@@ -37,13 +37,44 @@
                 </svg>
                 <span>Refresh</span>
               </button>
+              <a href="register.html" class="btn btn-sm btn-outline-primary">+ Register New User</a>
               <a href="login.html" class="btn btn-sm btn-ae-primary">Back to Login</a>
             </div>
           </div>
 
-          <!-- Explanation Banner -->
-          <div class="alert alert-info py-2 px-3 small mb-4">
-            <strong>Why is this here?</strong> For hackathon evaluation and zero-setup testing, AuthEase records all outbound emails into this secure database outbox so you can verify accounts instantly without needing a paid email service.
+          <!-- Crucial Guidance Banner: Which Email to Use? -->
+          <div class="card border-primary bg-primary-subtle p-3 mb-4 shadow-sm" role="region" aria-label="Email instructions">
+            <div class="d-flex align-items-start gap-3">
+              <span class="fs-3" aria-hidden="true">💡</span>
+              <div>
+                <h2 class="h6 fw-bold text-primary mb-1">Which email address should I use to see emails here?</h2>
+                <p class="small mb-1 text-dark">
+                  <strong>You can use ANY email address you want!</strong> (For example: <code>demo@authease.local</code>, <code>test@example.com</code>, or your personal email).
+                </p>
+                <p class="small mb-0 text-muted">
+                  AuthEase intercepts and records <strong>100% of outgoing security emails</strong> across all sessions into this database outbox. You do <em>not</em> need to wait for or open an external email service. Simply click the green <strong>[👉 Verify &amp; Activate Account Now]</strong> button on any message below to activate accounts instantly!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Alert Slot -->
+          <div id="outbox-error-slot" class="d-none alert alert-danger p-3 mb-4" role="alert"></div>
+
+          <!-- Search & Filter Controls -->
+          <div class="card border p-3 mb-4 bg-light shadow-sm">
+            <div class="row g-2 align-items-center">
+              <div class="col-12 col-md-7">
+                <div class="input-group input-group-sm">
+                  <label class="input-group-text bg-white" for="outbox-filter-input">🔍 Filter:</label>
+                  <input type="text" id="outbox-filter-input" class="form-control" placeholder="Search by recipient email or subject..." aria-label="Filter outbox emails by recipient or subject">
+                  <button type="button" class="btn btn-outline-secondary" id="btn-clear-filter">Clear</button>
+                </div>
+              </div>
+              <div class="col-12 col-md-5 text-md-end">
+                <span class="badge bg-secondary py-2 px-3 fw-normal" id="outbox-count-badge">Checking outbox...</span>
+              </div>
+            </div>
           </div>
 
           <!-- Loading State -->
@@ -57,9 +88,12 @@
           <!-- Empty State -->
           <div id="outbox-empty" class="text-center py-5 d-none">
             <div class="display-6 mb-2">📭</div>
-            <h2 class="h5 fw-bold mb-1">Your outbox is empty</h2>
-            <p class="text-muted small mb-3">No emails have been generated yet in this session.</p>
-            <a href="register.html" class="btn btn-sm btn-ae-primary">Register a test user to receive an email</a>
+            <h2 class="h5 fw-bold mb-1">No matching emails found</h2>
+            <p class="text-muted small mb-3">No emails match your filter, or no emails have been generated yet.</p>
+            <div class="d-flex justify-content-center gap-2">
+              <a href="register.html" class="btn btn-sm btn-ae-primary">Register a new test user</a>
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="btn-reset-empty-filter">Show all emails</button>
+            </div>
           </div>
 
           <!-- Messages Container -->

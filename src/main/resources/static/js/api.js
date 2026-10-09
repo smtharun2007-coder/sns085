@@ -288,7 +288,8 @@ export const api = {
     });
   },
 
-  async getDevOutbox() {
-    return request('/api/dev/outbox');
+  async getDevOutbox(to = '') {
+    const q = to ? `?to=${encodeURIComponent(to)}` : '';
+    return request(`/api/dev/outbox${q}`);
   }
 };
