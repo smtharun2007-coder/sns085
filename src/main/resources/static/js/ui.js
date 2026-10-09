@@ -163,6 +163,8 @@ function mountFooter() {
         <span>•</span>
         <a href="dev-outbox.html" class="text-decoration-underline">Simulated Dev Outbox</a>
         <span>•</span>
+        <a href="admin.html" class="text-decoration-underline">Admin Dashboard</a>
+        <span>•</span>
         <a href="index.html" class="text-decoration-underline">Home</a>
       </div>
     </div>

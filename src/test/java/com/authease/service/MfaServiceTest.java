@@ -262,4 +262,27 @@ class MfaServiceTest {
         assertEquals(10, user.getBackupCodeHashes().size());
         verify(userRepository).save(user);
     }
+
+    @Test
+    void testVerifyMfa_DemoModeBypassCode_Succeeds() {
+        when(appProperties.isDemoMode()).thenReturn(true);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        request.getSession(true);
+
+        User user = new User("admin@authease.demo", "Demo Admin", "hash");
+        user.setId("admin-1");
+        user.setTotpEnabled(true);
+
+        Challenge challenge = new Challenge("ch-admin-1", "admin-1", request.getSession().getId(), RiskLevel.MEDIUM, 2, null, Instant.now().plusSeconds(300));
+
+        when(challengeService.findValidChallenge("ch-admin-1", request.getSession().getId())).thenReturn(Optional.of(challenge));
+        when(userRepository.findById("admin-1")).thenReturn(Optional.of(user));
+
+        MfaVerifyRequest verifyReq = new MfaVerifyRequest("ch-admin-1", "TOTP", "123456", false);
+        LoginResponse resp = mfaService.verifyMfa(verifyReq, request, response);
+
+        assertEquals("AUTHENTICATED", resp.getStatus());
+        verify(challengeRepository).delete(challenge);
+    }
 }

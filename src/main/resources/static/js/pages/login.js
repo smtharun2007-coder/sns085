@@ -176,6 +176,10 @@ function transitionTo(nextState, payload = {}) {
       if (userDisplay && payload.user?.displayName) {
         userDisplay.textContent = `Welcome back, ${payload.user.displayName}!`;
       }
+      const adminLink = document.getElementById('link-admin-panel');
+      if (adminLink && payload.user?.roles?.includes('ADMIN')) {
+        adminLink.classList.remove('d-none');
+      }
       setStepHeading('Sign-in Successful - AuthEase', '#success-heading');
       announce('You are signed in successfully.');
       break;
