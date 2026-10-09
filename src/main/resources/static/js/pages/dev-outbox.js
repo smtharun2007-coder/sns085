@@ -85,6 +85,19 @@ function renderMessages(messages, container) {
     const codeMatch = body.match(/\b\d{6}\b/);
     const code = codeMatch ? codeMatch[0] : null;
 
+    let actionLabel = 'Open Link in Email';
+    let btnClass = 'btn-primary';
+    if (subject.toLowerCase().includes('verify') || (linkUrl && linkUrl.includes('verify-email'))) {
+      actionLabel = '👉 Verify & Activate Account Now';
+      btnClass = 'btn-success';
+    } else if (subject.toLowerCase().includes('authorization') || (linkUrl && linkUrl.includes('approve'))) {
+      actionLabel = '🛡️ Review & Approve Sign-in';
+      btnClass = 'btn-warning text-dark';
+    } else if (subject.toLowerCase().includes('recovery') || (linkUrl && linkUrl.includes('recover'))) {
+      actionLabel = '🔑 Reset Account Password';
+      btnClass = 'btn-danger';
+    }
+
     card.innerHTML = `
       <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 border-bottom pb-2 mb-2">
         <div>
@@ -99,14 +112,14 @@ function renderMessages(messages, container) {
 
       <div class="d-flex flex-wrap align-items-center gap-2">
         ${linkUrl ? `
-          <a href="${escapeHtml(linkUrl)}" target="_blank" class="btn btn-sm btn-success fw-bold d-inline-flex align-items-center gap-1">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-            <span>Open Link in Email</span>
+          <a href="${escapeHtml(linkUrl)}" target="_blank" class="btn btn-sm ${btnClass} fw-bold d-inline-flex align-items-center gap-1 shadow-sm px-3 py-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <span>${actionLabel}</span>
           </a>
         ` : ''}
 
         ${code ? `
-          <button type="button" class="btn btn-sm btn-outline-primary fw-semibold btn-copy-code" data-code="${escapeHtml(code)}">
+          <button type="button" class="btn btn-sm btn-outline-primary fw-semibold btn-copy-code px-3 py-2" data-code="${escapeHtml(code)}">
             Copy Code (${escapeHtml(code)})
           </button>
         ` : ''}
