@@ -78,8 +78,9 @@ async function explainCode(code) {
     if (res.ok && res.data) {
       result.classList.remove('d-none');
       title.textContent = res.data.title || code;
-      explanation.textContent = res.data.message || res.data.plainEnglish || 'No description found.';
-      nextstep.textContent = res.data.nextStep || 'Follow the on-screen instructions.';
+      explanation.textContent = res.data.text || res.data.message || res.data.plainEnglish || 'No description found.';
+      const sourceLabel = res.data.source === 'LLM' ? '🤖 Simplified by Google Gemini AI' : '📖 Plain-Language Guide Catalog';
+      nextstep.innerHTML = `${escapeHtml(res.data.nextStep || 'Follow the on-screen instructions.')} <span class="badge bg-secondary ms-2">${sourceLabel}</span>`;
       announce(`Explanation for ${code} loaded.`);
     } else {
       result.classList.remove('d-none');
@@ -98,3 +99,14 @@ async function explainCode(code) {
     nextstep.textContent = 'Please check the common errors section above.';
   }
 }
+
+function escapeHtml(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
