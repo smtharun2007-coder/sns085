@@ -1,10 +1,11 @@
 /**
  * AuthEase - Help & Assist Page Controller
+ * Interactive error explainer and guided mode triggers.
  */
 
 import { mountShell } from '../ui.js';
 import { api } from '../api.js';
-import { setStepHeading, announce } from '../a11y.js';
+import { setStepHeading, announce, isGuidedMode, setGuidedMode } from '../a11y.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   mountShell({ activeNav: 'help' });
@@ -16,33 +17,84 @@ function initHelpPage() {
 
   const btn = document.getElementById('btn-ask-assist');
   const input = document.getElementById('assist-input');
+
+  if (btn && input) {
+    btn.addEventListener('click', () => {
+      const code = input.value.trim().toUpperCase() || 'EMAIL_NOT_VERIFIED';
+      explainCode(code);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const code = input.value.trim().toUpperCase() || 'EMAIL_NOT_VERIFIED';
+        explainCode(code);
+      }
+    });
+  }
+
+  // Quick-click pills
+  document.querySelectorAll('.btn-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      const code = pill.getAttribute('data-code');
+      if (input) input.value = code;
+      explainCode(code);
+    });
+  });
+
+  // Guided Mode Toggle Button on Help page
+  const toggleGuidedBtn = document.getElementById('btn-toggle-guided-help');
+  if (toggleGuidedBtn) {
+    toggleGuidedBtn.addEventListener('click', () => {
+      const current = isGuidedMode();
+      setGuidedMode(!current, true);
+      toggleGuidedBtn.textContent = !current ? 'Guided Mode is ON (Click to turn off)' : 'Toggle Guided Mode Now';
+    });
+  }
+
+  // Pre-load default explanation
+  explainCode('EMAIL_NOT_VERIFIED');
+}
+
+async function explainCode(code) {
   const result = document.getElementById('assist-result');
   const title = document.getElementById('assist-title');
   const explanation = document.getElementById('assist-explanation');
   const nextstep = document.getElementById('assist-nextstep');
+  const btn = document.getElementById('btn-ask-assist');
 
-  if (btn && input) {
-    btn.addEventListener('click', async () => {
-      const code = input.value.trim().toUpperCase() || 'MFA_REQUIRED';
-      btn.disabled = true;
-      btn.textContent = 'Explaining...';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Explaining...';
+  }
 
-      const res = await api.explain(code, true);
+  try {
+    const res = await api.explain(code, true);
+    if (btn) {
       btn.disabled = false;
       btn.textContent = 'Explain Simply';
+    }
 
-      if (res.ok && res.data) {
-        result.classList.remove('d-none');
-        title.textContent = res.data.title || code;
-        explanation.textContent = res.data.message || res.data.plainEnglish || 'No explanation found.';
-        nextstep.textContent = res.data.nextStep || 'Follow the on-screen instructions.';
-        announce('Explanation loaded.');
-      } else {
-        result.classList.remove('d-none');
-        title.textContent = code;
-        explanation.textContent = 'Could not find a specific guide for this code, but our team is ready to help.';
-        nextstep.textContent = 'Check your connection or try again.';
-      }
-    });
+    if (res.ok && res.data) {
+      result.classList.remove('d-none');
+      title.textContent = res.data.title || code;
+      explanation.textContent = res.data.message || res.data.plainEnglish || 'No description found.';
+      nextstep.textContent = res.data.nextStep || 'Follow the on-screen instructions.';
+      announce(`Explanation for ${code} loaded.`);
+    } else {
+      result.classList.remove('d-none');
+      title.textContent = code;
+      explanation.textContent = 'This is a security check code. Please refer to the common errors section above.';
+      nextstep.textContent = 'Check your connection or start over from the sign in page.';
+    }
+  } catch (err) {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Explain Simply';
+    }
+    result.classList.remove('d-none');
+    title.textContent = code;
+    explanation.textContent = 'Could not contact the assistant service.';
+    nextstep.textContent = 'Please check the common errors section above.';
   }
 }

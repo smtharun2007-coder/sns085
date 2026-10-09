@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
-  <title>Help & Accessibility Guides - AuthEase</title>
+  <title>Help, Step-by-Step Guides & Error Solutions - AuthEase</title>
   
   <!-- Vendored Bootstrap 5.3 -->
   <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
@@ -18,59 +18,313 @@
   <main id="main-content" class="flex-grow-1 py-4 py-md-5">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-12 col-lg-8">
+        <div class="col-12 col-lg-9">
 
-          <div class="mb-4">
-            <h1 class="h3 fw-bold mb-1" id="help-heading" tabindex="-1">Help & Guidance</h1>
-            <p class="text-muted small m-0">Plain language answers to common security and accessibility questions.</p>
+          <!-- Page Header -->
+          <div class="mb-4 text-center text-md-start">
+            <h1 class="h2 fw-bold mb-2" id="help-heading" tabindex="-1">AuthEase Help & Guidance Center</h1>
+            <p class="lead text-muted fs-6 m-0">
+              Plain language step-by-step instructions, error troubleshooting, and accessibility assistance.
+            </p>
           </div>
 
-          <!-- Interactive AI Assist Tool -->
-          <div class="card shadow-sm border p-4 mb-4">
-            <div class="d-flex align-items-center gap-2 mb-2">
-              <span class="fs-4">🤖</span>
-              <h2 class="h5 fw-bold m-0">Explain Any Security Message (AI Assist)</h2>
+          <!-- Quick Navigation Pills -->
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <a href="#section-steps" class="btn btn-sm btn-ae-outline">📋 Step-by-Step Guides</a>
+            <a href="#section-errors" class="btn btn-sm btn-ae-outline">⚠️ Common Errors & Fixes</a>
+            <a href="#section-assist" class="btn btn-sm btn-ae-outline">🤖 AI Assist Explainer</a>
+            <a href="dev-outbox.html" class="btn btn-sm btn-primary">📬 Simulated Dev Outbox</a>
+          </div>
+
+          <!-- ========================================================== -->
+          <!-- SECTION 1: STEP-BY-STEP USER GUIDES -->
+          <!-- ========================================================== -->
+          <section id="section-steps" class="mb-5">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="fs-4">📋</span>
+              <h2 class="h4 fw-bold m-0">Step-by-Step Guides</h2>
+            </div>
+
+            <div class="row g-3">
+              
+              <!-- Guide 1: Registration & Activation -->
+              <div class="col-md-6">
+                <div class="card h-100 p-3 border shadow-sm">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-primary rounded-circle p-2 fs-6">1</span>
+                    <h3 class="h6 fw-bold m-0">How to Create & Activate Your Account</h3>
+                  </div>
+                  <ol class="small text-muted ps-3 mb-3">
+                    <li class="mb-1">Go to <a href="register.html" class="text-primary fw-semibold">Create account</a> and enter your name, email, and password.</li>
+                    <li class="mb-1">On the <strong>Check Email</strong> screen, look for the green button: <strong>[👉 Click Here to Activate Account Instantly]</strong>.</li>
+                    <li class="mb-1">If testing across tabs, open the <a href="dev-outbox.html" class="text-primary fw-semibold">Simulated Dev Outbox</a> and click <strong>Verify & Activate</strong>.</li>
+                    <li>Once activated, you can sign in with your credentials right away!</li>
+                  </ol>
+                  <div class="mt-auto">
+                    <a href="register.html" class="btn btn-sm btn-ae-outline w-100">Try Registering</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Guide 2: Sign-in & Adaptive 2FA -->
+              <div class="col-md-6">
+                <div class="card h-100 p-3 border shadow-sm">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-success rounded-circle p-2 fs-6">2</span>
+                    <h3 class="h6 fw-bold m-0">How Adaptive Sign-In Works</h3>
+                  </div>
+                  <ol class="small text-muted ps-3 mb-3">
+                    <li class="mb-1">Enter your email and password on the <a href="login.html" class="text-primary fw-semibold">Log in</a> screen.</li>
+                    <li class="mb-1"><strong>Low Risk:</strong> Signing in from a known, trusted device logs you in immediately without hurdles.</li>
+                    <li class="mb-1"><strong>Medium Risk:</strong> If you use a new browser or location, enter the 6-digit code sent to your email or authenticator app.</li>
+                    <li>Check <strong>"Remember this device for 30 days"</strong> so you won't be repeatedly asked for codes on your private computer.</li>
+                  </ol>
+                  <div class="mt-auto">
+                    <a href="login.html" class="btn btn-sm btn-ae-outline w-100">Go to Sign In</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Guide 3: Password Recovery -->
+              <div class="col-md-6">
+                <div class="card h-100 p-3 border shadow-sm">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-warning text-dark rounded-circle p-2 fs-6">3</span>
+                    <h3 class="h6 fw-bold m-0">How to Reset a Forgotten Password</h3>
+                  </div>
+                  <ol class="small text-muted ps-3 mb-3">
+                    <li class="mb-1">On the Sign In page, click <a href="recover.html" class="text-primary fw-semibold">Forgot password?</a>.</li>
+                    <li class="mb-1">Enter your registered email address and click <strong>Send recovery link</strong>.</li>
+                    <li class="mb-1">Open the recovery link from your email (or the <a href="dev-outbox.html" class="text-primary fw-semibold">Dev Outbox</a>).</li>
+                    <li>Choose a strong new password (we recommend a 4-word passphrase) and save.</li>
+                  </ol>
+                  <div class="mt-auto">
+                    <a href="recover.html" class="btn btn-sm btn-ae-outline w-100">Open Password Recovery</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Guide 4: Accessibility & Guided Mode -->
+              <div class="col-md-6">
+                <div class="card h-100 p-3 border shadow-sm">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <span class="badge bg-info text-dark rounded-circle p-2 fs-6">4</span>
+                    <h3 class="h6 fw-bold m-0">Using Accessibility & Guided Mode</h3>
+                  </div>
+                  <ul class="small text-muted ps-3 mb-3">
+                    <li class="mb-1"><strong>Guided Switch:</strong> Click <em>Guided</em> in the top navigation bar to turn on extra tips, simplified layouts, and larger input fields.</li>
+                    <li class="mb-1"><strong>A- / A / A+:</strong> Adjusts font size dynamically without distorting the layout.</li>
+                    <li class="mb-1"><strong>Read Aloud:</strong> Press the speaker icon in the top bar to hear page instructions read aloud.</li>
+                    <li><strong>High Contrast (HC):</strong> Select the HC button for maximum text visibility and clear borders.</li>
+                  </ul>
+                  <div class="mt-auto">
+                    <button type="button" class="btn btn-sm btn-ae-outline w-100" id="btn-toggle-guided-help">Toggle Guided Mode Now</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ========================================================== -->
+          <!-- SECTION 2: COMMON ERRORS & TROUBLESHOOTING -->
+          <!-- ========================================================== -->
+          <section id="section-errors" class="mb-5">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="fs-4">⚠️</span>
+              <h2 class="h4 fw-bold m-0">Common Errors & How to Fix Them</h2>
             </div>
             <p class="text-muted small mb-3">
-              Did you encounter a confusing error code? Enter the code below to get a friendly, grade 6–8 level explanation:
+              AuthEase displays plain English explanations for every situation. Here are the most common reason codes and the exact steps to resolve them:
             </p>
-            <div class="input-group mb-3">
-              <input type="text" id="assist-input" class="form-control" placeholder="e.g. TOKEN_INVALID_OR_EXPIRED, SUSPICIOUS_LOGIN, MFA_REQUIRED" aria-label="Security code">
-              <button class="btn btn-ae-primary px-3" type="button" id="btn-ask-assist">Explain Simply</button>
-            </div>
-            <div id="assist-result" class="p-3 bg-light rounded border d-none">
-              <h3 class="h6 fw-bold mb-1" id="assist-title"></h3>
-              <p class="small text-body mb-2" id="assist-explanation"></p>
-              <div class="small text-muted"><strong class="text-dark">Next step:</strong> <span id="assist-nextstep"></span></div>
-            </div>
-          </div>
 
-          <!-- FAQ Accordion -->
-          <div class="d-flex flex-column gap-3 mb-5">
-            <div class="card border p-3">
-              <h2 class="h6 fw-bold mb-1">What is Guided Mode?</h2>
-              <p class="small text-muted m-0">
-                Guided Mode simplifies forms, enlarges fonts, and provides step-by-step tips for each input field. You can turn it on or off at any time using the <strong>Guided</strong> switch in the top toolbar.
+            <div class="d-flex flex-column gap-3">
+
+              <!-- Error 1: EMAIL_NOT_VERIFIED -->
+              <div class="card border p-3 shadow-sm">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                  <div>
+                    <span class="badge bg-danger me-2">EMAIL_NOT_VERIFIED</span>
+                    <strong class="h6 m-0">"Email address not yet confirmed"</strong>
+                  </div>
+                  <span class="badge bg-light text-dark border">Registration</span>
+                </div>
+                <p class="small text-muted mb-2">
+                  <strong>Why it happens:</strong> You completed registration, but the account has not been activated via the email link yet.
+                </p>
+                <div class="p-2 bg-light rounded small border mb-2">
+                  <strong>💡 Steps to fix:</strong>
+                  <ol class="m-0 ps-3">
+                    <li>Go to the <a href="dev-outbox.html" class="fw-bold text-primary">Simulated Dev Outbox</a>.</li>
+                    <li>Find your email and click the green button: <strong>[👉 Verify & Activate Account Now]</strong>.</li>
+                    <li>Or click "Resend confirmation email" on the Check Email page.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <!-- Error 2: INVALID_CREDENTIALS -->
+              <div class="card border p-3 shadow-sm">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                  <div>
+                    <span class="badge bg-danger me-2">INVALID_CREDENTIALS</span>
+                    <strong class="h6 m-0">"Email or password does not match"</strong>
+                  </div>
+                  <span class="badge bg-light text-dark border">Login</span>
+                </div>
+                <p class="small text-muted mb-2">
+                  <strong>Why it happens:</strong> The email address was not found, or the password entered does not match your account.
+                </p>
+                <div class="p-2 bg-light rounded small border mb-2">
+                  <strong>💡 Steps to fix:</strong>
+                  <ol class="m-0 ps-3">
+                    <li>Double check for typing mistakes and ensure Caps Lock is OFF.</li>
+                    <li>If you forgot your password, click <a href="recover.html" class="fw-bold text-primary">Forgot password?</a> to set a new one.</li>
+                    <li>If you haven't created an account yet, <a href="register.html" class="fw-bold text-primary">create one here</a>.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <!-- Error 3: TOKEN_INVALID_OR_EXPIRED -->
+              <div class="card border p-3 shadow-sm">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                  <div>
+                    <span class="badge bg-danger me-2">TOKEN_INVALID_OR_EXPIRED</span>
+                    <strong class="h6 m-0">"Link expired or already used"</strong>
+                  </div>
+                  <span class="badge bg-light text-dark border">Security Links</span>
+                </div>
+                <p class="small text-muted mb-2">
+                  <strong>Why it happens:</strong> Verification and password reset links are single-use and expire for your security (verification links expire in 24 hours; approval links in 10 minutes).
+                </p>
+                <div class="p-2 bg-light rounded small border mb-2">
+                  <strong>💡 Steps to fix:</strong>
+                  <ol class="m-0 ps-3">
+                    <li>Single-use links cannot be clicked twice. If you already verified, proceed directly to <a href="login.html" class="fw-bold text-primary">Log in</a>.</li>
+                    <li>If the link expired, request a fresh one using "Resend verification" or "Forgot password".</li>
+                  </ol>
+                </div>
+              </div>
+
+              <!-- Error 4: PASSWORD_BREACHED -->
+              <div class="card border p-3 shadow-sm">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                  <div>
+                    <span class="badge bg-warning text-dark me-2">PASSWORD_BREACHED</span>
+                    <strong class="h6 m-0">"Password found in public breach leaks"</strong>
+                  </div>
+                  <span class="badge bg-light text-dark border">NIST Security</span>
+                </div>
+                <p class="small text-muted mb-2">
+                  <strong>Why it happens:</strong> AuthEase checks NIST SP 800-63B compromise blocklists. The password entered is one of the top stolen passwords used by attackers (e.g. <code>password123</code>, <code>admin123</code>).
+                </p>
+                <div class="p-2 bg-light rounded small border mb-2">
+                  <strong>💡 Steps to fix:</strong>
+                  <p class="m-0">Choose a longer passphrase made of 3 to 4 random words (e.g., <code>correct-horse-battery-staple</code>). You do not need to memorize weird symbols or numbers!</p>
+                </div>
+              </div>
+
+              <!-- Error 5: OTP_INVALID & OTP_EXPIRED -->
+              <div class="card border p-3 shadow-sm">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                  <div>
+                    <span class="badge bg-danger me-2">OTP_INVALID / OTP_EXPIRED</span>
+                    <strong class="h6 m-0">"Incorrect or expired 6-digit code"</strong>
+                  </div>
+                  <span class="badge bg-light text-dark border">Two-Factor</span>
+                </div>
+                <p class="small text-muted mb-2">
+                  <strong>Why it happens:</strong> A typo occurred when entering the 6-digit code, or the 5-minute time window expired before the code was submitted.
+                </p>
+                <div class="p-2 bg-light rounded small border mb-2">
+                  <strong>💡 Steps to fix:</strong>
+                  <ol class="m-0 ps-3">
+                    <li>Check the latest code in your authenticator app (codes change every 30 seconds).</li>
+                    <li>If using Email OTP, check the latest message in the <a href="dev-outbox.html" class="fw-bold text-primary">Dev Outbox</a>.</li>
+                    <li>Click <strong>"Send me a new code"</strong> to generate a fresh 6-digit code.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <!-- Error 6: RATE_DELAY -->
+              <div class="card border p-3 shadow-sm">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                  <div>
+                    <span class="badge bg-warning text-dark me-2">RATE_DELAY</span>
+                    <strong class="h6 m-0">"Too many attempts in a short time"</strong>
+                  </div>
+                  <span class="badge bg-light text-dark border">Rate Limiting</span>
+                </div>
+                <p class="small text-muted mb-2">
+                  <strong>Why it happens:</strong> Repeated rapid sign-in attempts triggered progressive backoff protection to stop automated brute-force attacks.
+                </p>
+                <div class="p-2 bg-light rounded small border mb-2">
+                  <strong>💡 Steps to fix:</strong>
+                  <p class="m-0">Wait for the countdown timer displayed on screen to reach zero (usually 2 to 30 seconds), then submit your credentials once more.</p>
+                </div>
+              </div>
+
+              <!-- Error 7: CHALLENGE_LOCKED -->
+              <div class="card border p-3 shadow-sm">
+                <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-2">
+                  <div>
+                    <span class="badge bg-danger me-2">CHALLENGE_LOCKED</span>
+                    <strong class="h6 m-0">"Security check locked after 5 failed tries"</strong>
+                  </div>
+                  <span class="badge bg-light text-dark border">Lockout Defense</span>
+                </div>
+                <p class="small text-muted mb-2">
+                  <strong>Why it happens:</strong> An incorrect 2FA code was entered 5 times consecutively. The active challenge is locked to protect the account from guessing.
+                </p>
+                <div class="p-2 bg-light rounded small border mb-2">
+                  <strong>💡 Steps to fix:</strong>
+                  <p class="m-0">Return to the <a href="login.html" class="fw-bold text-primary">Log in page</a> and start fresh by re-entering your email and password.</p>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- ========================================================== -->
+          <!-- SECTION 3: INTERACTIVE AI ASSIST EXPLAINER -->
+          <!-- ========================================================== -->
+          <section id="section-assist" class="mb-5">
+            <div class="card shadow-sm border p-4 bg-light">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="fs-4">🤖</span>
+                <h2 class="h5 fw-bold m-0">Interactive Error Explainer (AI Assist)</h2>
+              </div>
+              <p class="text-muted small mb-3">
+                Encountered an unfamiliar security code? Type it below or click an example pill to get a simplified explanation and immediate next step:
               </p>
-            </div>
 
-            <div class="card border p-3">
-              <h2 class="h6 fw-bold mb-1">How does Adaptive Security work?</h2>
-              <p class="small text-muted m-0">
-                When you sign in from your familiar browser, you are logged in instantly. If you log in from a new computer or location, AuthEase asks for a 6-digit code to confirm it's really you. If someone tries to sign in from an unfamiliar country or with repeated bad passwords, an approval email is sent to protect your account.
-              </p>
-            </div>
+              <!-- Quick Click Pills -->
+              <div class="d-flex flex-wrap gap-1 mb-3">
+                <span class="small text-muted me-1 align-self-center">Try:</span>
+                <button type="button" class="btn btn-sm btn-outline-secondary btn-pill" data-code="EMAIL_NOT_VERIFIED">EMAIL_NOT_VERIFIED</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary btn-pill" data-code="TOKEN_INVALID_OR_EXPIRED">TOKEN_INVALID_OR_EXPIRED</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary btn-pill" data-code="PASSWORD_BREACHED">PASSWORD_BREACHED</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary btn-pill" data-code="RATE_DELAY">RATE_DELAY</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary btn-pill" data-code="OTP_INVALID">OTP_INVALID</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary btn-pill" data-code="CHALLENGE_LOCKED">CHALLENGE_LOCKED</button>
+              </div>
 
-            <div class="card border p-3">
-              <h2 class="h6 fw-bold mb-1">Where do I find my verification emails in this demo?</h2>
-              <p class="small text-muted m-0">
-                All verification emails and codes are delivered directly to the <a href="dev-outbox.html" class="fw-semibold text-primary">Simulated Dev Outbox</a>. You can open and click them with a single click.
-              </p>
-            </div>
-          </div>
+              <div class="input-group mb-3">
+                <input type="text" id="assist-input" class="form-control" placeholder="Enter error code..." value="EMAIL_NOT_VERIFIED" aria-label="Security code">
+                <button class="btn btn-ae-primary px-3" type="button" id="btn-ask-assist">Explain Simply</button>
+              </div>
 
+              <!-- Result Container -->
+              <div id="assist-result" class="p-3 bg-white rounded border d-none shadow-sm">
+                <h3 class="h6 fw-bold mb-1 text-primary" id="assist-title"></h3>
+                <p class="small text-body mb-2" id="assist-explanation"></p>
+                <div class="small text-muted p-2 bg-light rounded border"><strong class="text-dark">Recommended next step:</strong> <span id="assist-nextstep"></span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Back to Home -->
           <div class="text-center pt-3 border-top">
-            <a href="index.html" class="btn btn-ae-outline px-4">Back to Home</a>
+            <a href="index.html" class="btn btn-ae-outline px-4 fs-6">← Return to AuthEase Home</a>
           </div>
 
         </div>
