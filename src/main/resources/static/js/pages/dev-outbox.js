@@ -73,7 +73,13 @@ function renderMessages(messages, container) {
 
     // Extract links in the email body
     const linkMatch = body.match(/https?:\/\/[^\s]+/i) || body.match(/\/([a-zA-Z0-9_-]+\.html\?[^\s]+)/i);
-    const linkUrl = linkMatch ? linkMatch[0] : null;
+    let linkUrl = linkMatch ? linkMatch[0] : null;
+    if (linkUrl) {
+      try {
+        const parsed = new URL(linkUrl, window.location.origin);
+        linkUrl = window.location.origin + parsed.pathname + parsed.search;
+      } catch (_) {}
+    }
 
     // Extract 6-digit numeric codes
     const codeMatch = body.match(/\b\d{6}\b/);
